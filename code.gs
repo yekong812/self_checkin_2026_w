@@ -124,6 +124,13 @@ function checkPaymentStatus(gi, name, ss) {
       return false;
     }
     
+    // gi를 숫자로 정규화 (타입 일치를 위해)
+    const normalizedGi = normalizeGi(gi);
+    if (!normalizedGi) {
+      console.error("기수 정규화 실패:", gi);
+      return false;
+    }
+    
     const paymentSheet = ss.getSheetByName("회비");
     if (!paymentSheet) {
       console.error("회비 시트를 찾을 수 없습니다");
@@ -148,7 +155,8 @@ function checkPaymentStatus(gi, name, ss) {
       const rowName = (row[1] + "").trim(); // 2열: 이름
       const status = row[2]; // 3열: 회비 납부 여부
       
-      if (rowGi === gi && rowName === name) {
+      // 숫자끼리 비교 (타입 일치)
+      if (rowGi === normalizedGi && rowName === name) {
         // null, undefined, 빈 문자열인 경우 false 반환
         if (status === null || status === undefined || status === "") {
           return false;

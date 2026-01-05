@@ -19,16 +19,35 @@ async function handleLogin() {
     loginBtn.textContent = "확인 중...";
     loadingEl.style.display = "block";
   
-    const targetUrl = `https://script.google.com/macros/s/AKfycbzxMUJjD1Rlj0lXZwZuScKyrqIgwlYPfIjDKgWJQGA3X1uh98ZjVhfkuCYgA6xI6rXH/exec?action=verifyLoginAndPayment&gi=${encodeURIComponent(gi)}&name=${encodeURIComponent(name)}`;
+    const targetUrl = `https://script.google.com/macros/s/AKfycbwShhNG_A7uIPGQ9nMTifs0SpIUgbkDxHECvDyZV8b3kFi6t-jaSlT0iB5UJJgcqcKj/exec?action=verifyLoginAndPayment&gi=${encodeURIComponent(gi)}&name=${encodeURIComponent(name)}`;
     const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`; // ✅ 프록시 경유
 
   
     try {
       const res = await fetch(proxyUrl);
-      const data = await res.json();
-  
+      
+      // 응답 상태 확인
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error("서버 응답 오류:", res.status, errorText);
+        errorEl.innerText = `서버 오류 (${res.status}): ${res.status === 403 ? "접근 권한이 없습니다. Google Apps Script 배포 설정을 확인해주세요." : "서버 연결에 실패했습니다."}`;
+        errorEl.style.display = "block";
+        return;
+      }
+      
+      let data;
+      try {
+        data = await res.json();
+      } catch (parseError) {
+        const responseText = await res.text();
+        console.error("JSON 파싱 오류:", parseError, "응답:", responseText);
+        errorEl.innerText = "서버 응답 형식 오류입니다.";
+        errorEl.style.display = "block";
+        return;
+      }
+
       if (!data.success) {
-        errorEl.innerText = "입력하신 정보가 등록되어 있지 않습니다.";
+        errorEl.innerText = data.error || "입력하신 정보가 등록되어 있지 않습니다.";
         errorEl.style.display = "block";
       } else if (data.paid) {
         window.location.href = `final.html?gi=${encodeURIComponent(gi)}&name=${encodeURIComponent(name)}`;
@@ -38,7 +57,7 @@ async function handleLogin() {
     } catch (err) {
       errorEl.innerText = "서버 연결에 실패했습니다.";
       errorEl.style.display = "block";
-      console.error(err);
+      console.error("에러 상세:", err);
     } finally {
       // 로딩 상태 종료
       loginBtn.disabled = false;
