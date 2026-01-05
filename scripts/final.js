@@ -49,22 +49,15 @@ window.onload = async () => {
         return;
       }
   
-      // 조 배정 여부 확인
-      const hasTeam = data.team && data.team.trim() !== "";
-      
+      // 사용자 정보 표시
       const infoText = `
         <p><strong>기수:</strong> ${data.gi}</p>
         <p><strong>이름:</strong> ${data.name}</p>
-        <p><strong>티셔츠 사이즈:</strong> ${data.shirt}</p>
-        <p><strong>조:</strong> ${hasTeam ? "배정 완료" : "미배정 (조 필요시 스텝에게 얘기해주세요)"}</p>
       `;
       document.getElementById("info").innerHTML = infoText;
   
-      // 조 정보를 QR 코드에 포함 (조 이름이 있으면 조 이름, 없으면 미배정)
-      const teamInfo = hasTeam ? data.team : "미배정";
-      
       // 텍스트 형식으로 QR 코드 데이터 생성
-      const qrText = `기수: ${data.gi}, 이름: ${data.name}, 조: ${teamInfo}, 티셔츠: ${data.shirt}`;
+      const qrText = `기수: ${data.gi}, 이름: ${data.name}`;
       
       // 텍스트를 Base64로 인코딩
       const encodedData = btoa(unescape(encodeURIComponent(qrText)));
