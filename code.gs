@@ -200,7 +200,7 @@ function testSimple() {
 
 function testFindUser() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const responseSheet = ss.getSheetByName("정리된 응답");
+  const responseSheet = ss.getSheetByName("회비");
   
   if (!responseSheet) {
     console.log("시트를 찾을 수 없습니다");
