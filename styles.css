@@ -69,10 +69,16 @@ body {
     top: 15px;
     left: 20px;
     font-family: 'NeoPixel', monospace;
-    font-weight: normal;
+    font-weight: 450; /* semi-bold 느낌 */
     color: #059669; /* 진한 초록색 */
-    font-size: 20px !important;
+    font-size: 23px !important;
     font-style: normal;
+    text-shadow: 
+        0.5px 0 0 #059669,
+        -0.5px 0 0 #059669,
+        0 0.5px 0 #059669,
+        0 -0.5px 0 #059669; /* 4방향으로 가벼운 그림자 (semi-bold 느낌) */
+    -webkit-font-smoothing: none; /* 픽셀 폰트의 선명함 유지 */
 }
 
 .warning {
@@ -177,6 +183,39 @@ div[style*="background-color: #fff7e6"] {
     line-height: 1.6 !important;
     margin: 15px 0 !important;
     border: 2px solid #22c55e;
+}
+
+/* 회비 미납 안내 페이지 - 회비 납부 안내 박스 (br 대신 CSS로 간격 조절) */
+.payment-box {
+    background-color: #f0fdf4;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 16px;
+    border: 2px solid #22c55e;
+    line-height: 1; /* 전체 줄 간격(미세조절 포인트) */
+    margin: 15px 0;
+}
+
+.notice-list {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 18px 0;
+    font-size: 14px;
+    line-height: 0.8; /* 줄 간격 */
+}
+
+.notice-list li + li {
+    margin-top: 10px; /* 항목 사이 간격(원하는 대로 조절) */
+}
+
+.payment-title {
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 20px; /* 제목 아래 간격(미세조절 포인트) */
+}
+
+.payment-row + .payment-row {
+    margin-top: 10px; /* 항목 간 간격(미세조절 포인트) */
 }
 
 /* 구분선 */
