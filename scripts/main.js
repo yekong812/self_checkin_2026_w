@@ -19,7 +19,7 @@ async function handleLogin() {
     loginBtn.textContent = "확인 중...";
     loadingEl.style.display = "block";
   
-    const targetUrl = `https://script.google.com/macros/s/AKfycbwShhNG_A7uIPGQ9nMTifs0SpIUgbkDxHECvDyZV8b3kFi6t-jaSlT0iB5UJJgcqcKj/exec?action=verifyLoginAndPayment&gi=${encodeURIComponent(gi)}&name=${encodeURIComponent(name)}`;
+    const targetUrl = `https://script.google.com/macros/s/AKfycbwXWA6aXVnqGjH_D6pFeDoe7upZDXsN_dD8DcgSEc9ZfAHtrrTDSVPinxCZymPRLxxb/exec?action=verifyLoginAndPayment&gi=${encodeURIComponent(gi)}&name=${encodeURIComponent(name)}`;
     const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`; // ✅ 프록시 경유
 
   
