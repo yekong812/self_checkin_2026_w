@@ -17,7 +17,7 @@ window.onload = async () => {
     qrcodeEl.style.display = "none";
   
     try {
-      const targetUrl = `https://script.google.com/macros/s/AKfycbwShhNG_A7uIPGQ9nMTifs0SpIUgbkDxHECvDyZV8b3kFi6t-jaSlT0iB5UJJgcqcKj/exec?action=getUserInfo&gi=${encodeURIComponent(gi)}&name=${encodeURIComponent(name)}`;
+      const targetUrl = `https://script.google.com/macros/s/AKfycbwShhNG_A7uIPGQ9nMTifs0SpIUgbkDxHECvDyZV8b3kFi6t-jaSlT0iB5UJJgcqcKj/exechttps://script.google.com/macros/s/AKfycbwShhNG_A7uIPGQ9nMTifs0SpIUgbkDxHECvDyZV8b3kFi6t-jaSlT0iB5UJJgcqcKj/exec?action=getUserInfo&gi=${encodeURIComponent(gi)}&name=${encodeURIComponent(name)}`;
       const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
       const res = await fetch(proxyUrl);
   

@@ -55,7 +55,7 @@ function jsonResponse(obj) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-// ✅ 1. 로그인 & 명단단 확인
+// ✅ 1. 로그인 & 명단 확인
 function handleVerifyLoginAndPayment(gi, name) {
   try {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -66,11 +66,11 @@ function handleVerifyLoginAndPayment(gi, name) {
       });
     }
     
-    const paymentSheet = ss.getSheetByName("명단단");
+    const paymentSheet = ss.getSheetByName("명단");
     if (!paymentSheet) {
       return jsonResponse({ 
         success: false, 
-        error: "명단단 시트를 찾을 수 없습니다." 
+        error: "명단 시트를 찾을 수 없습니다." 
       });
     }
     
@@ -81,13 +81,13 @@ function handleVerifyLoginAndPayment(gi, name) {
     if (lastRow === 0 || lastCol === 0) {
       return jsonResponse({ 
         success: false, 
-        error: "명단단 시트에 데이터가 없습니다." 
+        error: "명단 시트에 데이터가 없습니다." 
       });
     }
     
     const data = paymentSheet.getRange(1, 1, lastRow, lastCol).getValues();
 
-    // 명단단 시트에서 로그인 확인 및 명단단 상태 확인
+    // 명단 시트에서 로그인 확인 및 명단 상태 확인
     let found = false;
     let paid = false;
     
@@ -96,7 +96,7 @@ function handleVerifyLoginAndPayment(gi, name) {
       
       const rowGi = normalizeGi(row[0]); // 1열: 기수
       const rowName = (row[1] + "").trim(); // 2열: 이름
-      const status = row[2]; // 3열: 명단단 납부 여부
+      const status = row[2]; // 3열: 명단 납부 여부
       
       if (rowGi === gi && rowName === name) {
         found = true;
@@ -137,9 +137,9 @@ function checkPaymentStatus(gi, name, ss) {
       return false;
     }
     
-    const paymentSheet = ss.getSheetByName("명단단");
+    const paymentSheet = ss.getSheetByName("명단");
     if (!paymentSheet) {
-      console.error("명단단 시트를 찾을 수 없습니다");
+      console.error("명단 시트를 찾을 수 없습니다");
       return false;
     }
     
@@ -148,7 +148,7 @@ function checkPaymentStatus(gi, name, ss) {
     const lastCol = paymentSheet.getLastColumn();
     
     if (lastRow === 0 || lastCol === 0) {
-      console.error("명단단 시트에 데이터가 없습니다");
+      console.error("명단 시트에 데이터가 없습니다");
       return false;
     }
     
@@ -159,7 +159,7 @@ function checkPaymentStatus(gi, name, ss) {
       
       const rowGi = normalizeGi(row[0]); // 1열: 기수
       const rowName = (row[1] + "").trim(); // 2열: 이름
-      const status = row[2]; // 3열: 명단단 납부 여부
+      const status = row[2]; // 3열: 명단 납부 여부
       
       // 숫자끼리 비교 (타입 일치)
       if (rowGi === normalizedGi && rowName === name) {
@@ -214,7 +214,7 @@ function testSimple() {
 
 function testFindUser() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const responseSheet = ss.getSheetByName("명단단");
+  const responseSheet = ss.getSheetByName("명단");
   
   if (!responseSheet) {
     console.log("시트를 찾을 수 없습니다");
@@ -250,7 +250,7 @@ function testCheckPaymentStatus() {
     
     if (ss) {
       const result = checkPaymentStatus(testGi, testName, ss);
-      console.log("명단단 확인 결과:", result);
+      console.log("명단 확인 결과:", result);
       return result;
     } else {
       console.error("스프레드시트에 접근할 수 없습니다");
@@ -276,25 +276,25 @@ function testCheckPaymentStatusSimple() {
       return false;
     }
     
-    const paymentSheet = ss.getSheetByName("명단단");
-    console.log("명단단 시트:", paymentSheet ? "존재" : "null");
+    const paymentSheet = ss.getSheetByName("명단");
+    console.log("명단 시트:", paymentSheet ? "존재" : "null");
     
     if (!paymentSheet) {
-      console.error("명단단 시트를 찾을 수 없습니다");
+      console.error("명단 시트를 찾을 수 없습니다");
       return false;
     }
     
     const lastRow = paymentSheet.getLastRow();
     const lastCol = paymentSheet.getLastColumn();
-    console.log("명단단 시트 크기:", lastRow, "행 x", lastCol, "열");
+    console.log("명단 시트 크기:", lastRow, "행 x", lastCol, "열");
     
     if (lastRow === 0 || lastCol === 0) {
-      console.error("명단단 시트에 데이터가 없습니다");
+      console.error("명단 시트에 데이터가 없습니다");
       return false;
     }
     
     const data = paymentSheet.getRange(1, 1, lastRow, lastCol).getValues();
-    console.log("명단단 데이터 행 수:", data.length);
+    console.log("명단 데이터 행 수:", data.length);
     
     for (let i = 0; i < data.length; i++) {
       const row = data[i];
@@ -305,19 +305,19 @@ function testCheckPaymentStatusSimple() {
       
       const rowGi = normalizeGi(row[0]); // 1열: 기수
       const rowName = (row[1] + "").trim(); // 2열: 이름
-      const status = row[2]; // 3열: 명단단 납부 여부
+      const status = row[2]; // 3열: 명단 납부 여부
       
       console.log(`행 ${i}: 기수=${rowGi}, 이름=${rowName}, 상태=${status}, 찾는값=${testGi}, ${testName}`);
       
       if (rowGi === testGi && rowName === testName) {
         // null, undefined, 빈 문자열인 경우 false 반환
         if (status === null || status === undefined || status === "") {
-          console.log("사용자 찾음! 명단단 미납부 (null/empty)");
+          console.log("사용자 찾음! 명단 미납부 (null/empty)");
           return false;
         }
         // O 또는 o인 경우만 true 반환
         const result = status === "O" || status === "o";
-        console.log("사용자 찾음! 명단단 납부:", result);
+        console.log("사용자 찾음! 명단 납부:", result);
         return result;
       }
     }
