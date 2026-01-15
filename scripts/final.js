@@ -51,8 +51,8 @@ window.onload = async () => {
   
       // 사용자 정보 표시
       const infoText = `
-        <p><strong>기수:</strong> ${data.gi}</p>
-        <p><strong>이름:</strong> ${data.name}</p>
+        <p><strong>기수 :</strong> ${data.gi}</p>
+        <p><strong>이름 :</strong> ${data.name}</p>
       `;
       document.getElementById("info").innerHTML = infoText;
   
