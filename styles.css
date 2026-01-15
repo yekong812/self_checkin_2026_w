@@ -70,14 +70,14 @@ body {
     left: 20px;
     font-family: 'NeoPixel', monospace;
     font-weight: 450; /* semi-bold 느낌 */
-    color: #059669; /* 진한 초록색 */
+    color: #22c55e; /* 진한 초록색 */
     font-size: 23px !important;
     font-style: normal;
     text-shadow: 
-        0.5px 0 0 #059669,
-        -0.5px 0 0 #059669,
-        0 0.5px 0 #059669,
-        0 -0.5px 0 #059669; /* 4방향으로 가벼운 그림자 (semi-bold 느낌) */
+        0.5px 0 0 #22c55e,
+        -0.5px 0 0 #22c55e,
+        0 0.5px 0 #22c55e,
+        0 -0.5px 0 #22c55e; /* 4방향으로 가벼운 그림자 (semi-bold 느낌) */
     -webkit-font-smoothing: none; /* 픽셀 폰트의 선명함 유지 */
 }
 
